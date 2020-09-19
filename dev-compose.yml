@@ -1,0 +1,55 @@
+version: "3.4"
+
+x-common-variables:
+  &db-env-vars
+    POSTGRES_DB: db-r2dbc
+    POSTGRES_USER: root
+    POSTGRES_PASSWORD: root
+    PORT_DB: 5432
+    PORT_API: 8080
+    PORT_EXP: 5005
+
+volumes:
+  webflux_data:
+
+networks:
+  webflux_rede:
+
+services:
+  db-r2dbc:
+    container_name: db-r2dbc
+    image: postgres:9.5-alpine
+    hostname: postgres # postgres hostname
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - webflux_data:/var/lib/postgresql/data
+    networks:
+      - webflux_rede
+    environment:
+      *db-env-vars
+
+  web-api:
+    image: pauloportfolio/web-api
+    build:
+      context: ./
+      dockerfile: ./dev-dockerfile
+      args:
+        JAR_FILE: target/*.jar
+    ports:
+      - 8080:8080
+      - 5005:5005
+    volumes:
+      - webflux_data:/var/lib/postgresql/data
+    depends_on:
+      - db-r2dbc
+    networks:
+      - webflux_rede
+    environment:
+      DB_URL: r2dbc:pool:postgresql://db-r2dbc:${PORT_DB}/${POSTGRES_DB}
+      <<: *db-env-vars
+      PROFILE: dev
+      DEBUG_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -Xmx1G -Xms128m -XX:MaxMetaspaceSize=128m
+      #JDK>=09: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xmx1G -Xms128m -XX:MaxMetaspaceSize=128m
+      #JDK  08: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -Xmx1G -Xms128m -XX:MaxMetaspaceSize=128m
