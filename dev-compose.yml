@@ -2,7 +2,7 @@ version: "3.4"
 
 x-common-variables:
   &db-env-vars
-    POSTGRES_DB: db-r2dbc
+    POSTGRES_DB: db-test
     POSTGRES_USER: root
     POSTGRES_PASSWORD: root
     PORT_DB: 5432
