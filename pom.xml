@@ -14,13 +14,9 @@
     </parent>
 
     <groupId>com.spring-webflux-r2dbc-relationship</groupId>
-
     <artifactId>spring_webflux_r2dbc_relationship</artifactId>
-
     <version>0.0.1-SNAPSHOT</version>
-
     <name>spring_webflux_r2dbc_relationship</name>
-
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -85,25 +81,16 @@
         </dependency>
 
         <dependency>
-            <groupId>io.projectreactor</groupId>
-            <artifactId>reactor-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>io.projectreactor.tools</groupId>
             <artifactId>blockhound</artifactId>
             <version>1.0.3.RELEASE</version>
         </dependency>
+
         <dependency>
             <groupId>io.projectreactor</groupId>
             <artifactId>reactor-test</artifactId>
         </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
