@@ -1,12 +1,11 @@
 package com.spring_webflux_r2dbc_relationship.entity;
 
-import lombok.Data;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Data
+@Getter
+@Setter
 @RequiredArgsConstructor
 @Table("tasks")
 public class Task {
@@ -15,6 +14,4 @@ public class Task {
 
     @NonNull
     private String lastname;
-
-    private boolean completed;
 }

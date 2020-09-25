@@ -67,6 +67,12 @@
             <version>0.8.2.RELEASE</version>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>name.nkonev.r2dbc-migrate</groupId>-->
+<!--            <artifactId>r2dbc-migrate-spring-boot-starter</artifactId>-->
+<!--            <version>1.0.8</version>-->
+<!--        </dependency>-->
+
         <!-- TEST-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

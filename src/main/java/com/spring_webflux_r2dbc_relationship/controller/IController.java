@@ -7,5 +7,8 @@ import reactor.core.publisher.Mono;
 public interface IController {
     Flux<Task> findAll();
 
-    Mono<Void> newUser(String id);
+    Flux<Task> getTaskBySchema(String schema);
+
+    Mono<Void> createSchema(String schema);
+
 }
