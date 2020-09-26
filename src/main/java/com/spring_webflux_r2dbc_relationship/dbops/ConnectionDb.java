@@ -15,14 +15,18 @@ public class ConnectionDb extends AbstractR2dbcConfiguration {
 
     /*
      **********************************************
-     * Spring Data R2dbc does not support JPA
-     * In order to Spring Data makes DDL it should
-     * works with JPA.
+     * Spring Data JDBC:
+     *      DDL: does not support JPA.
+     *
      * R2DBC
-     *      DDL: In order to make DDL in Spring Data R2dbc
-     *      is necessary to use R2dbc.DataBaseClient.
-     *      DML: Can ben done with
-     *       Spring Data R2dbc - R2dbcREpositories
+     *      DDL:
+     *          -does no support JPA
+     *          -To achieve DDL, uses R2dbc.DataBaseClient
+     *
+     *      DML:
+     *          -it uses R2dbcREpositories
+     *          -R2dbcRepositories is different than
+     *          R2dbc.DataBaseClient
      * ********************************************
      */
     @Bean
@@ -32,8 +36,8 @@ public class ConnectionDb extends AbstractR2dbcConfiguration {
                 .host("db-r2dbc")
                 .port(5432)
                 .username("root")
-                .password("root")
-                .database("db-test");
+                .password("root");
+//                .database("db-test");
     }
 
 

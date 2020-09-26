@@ -1,12 +1,11 @@
 package com.spring_webflux_r2dbc_relationship.service;
 
 import com.spring_webflux_r2dbc_relationship.entity.Task;
+import com.spring_webflux_r2dbc_relationship.repo.RepoDbClient;
 import com.spring_webflux_r2dbc_relationship.repo.ITaskRepo;
 import io.r2dbc.postgresql.PostgresqlConnectionConfiguration;
-import io.r2dbc.postgresql.PostgresqlConnectionFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.r2dbc.core.DatabaseClient;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -18,6 +17,9 @@ public class TaskService implements ITaskService {
     private ITaskRepo repo;
 
     @Autowired
+    private RepoDbClient repoDbClient;
+
+    @Autowired
     PostgresqlConnectionConfiguration.Builder connectionConfig;
 
     public Flux<Task> findAll() {
@@ -25,25 +27,32 @@ public class TaskService implements ITaskService {
     }
 
     public Flux<Task> getTaskBySchema(String schema) {
-
-        // configure connfactory with schema set on the builder
-        PostgresqlConnectionFactory connectionFactory =
-                new PostgresqlConnectionFactory(
-                        connectionConfig
-                                .schema(schema)
-                                .build()
-                );
-
-        DatabaseClient ddl = DatabaseClient.create(connectionFactory);
-
-        String sql = "select * from tasks";
-
-        return ddl.execute(sql)
-                  .as(Task.class)
-                  .fetch()
-                  .all();
+        return repoDbClient.getTasksBySchema(schema);
     }
 
+    public Flux<Task> getTaskByDb(String Db) {
+        return repoDbClient.getTasksByDb(Db);
+    }
+
+    public Mono<Void> createSchema(String schema) {
+        return repoDbClient.createSchema(schema);
+    }
+
+    public Mono<Void> createDb(String db) {
+        return repoDbClient.createDb(db);
+    }
+
+    public Flux<Object> createScriptSchema(String schema,String table) {
+        return repoDbClient.scriptsCreateSchemma(schema,table);
+    }
+
+    public Flux<Object> createScriptDb(String db,String schema,String table) {
+        return repoDbClient.scriptsCreateDb(db,schema,table);
+    }
+
+
+
+}
 
     /*
     **********************************************
@@ -57,21 +66,31 @@ public class TaskService implements ITaskService {
     *       Spring Data R2dbc - R2dbcREpositories
     * ********************************************
      */
-    public Mono<Void> createSchema(String schema) {
-
         // configure connfactory with schema set on the builder
-        PostgresqlConnectionFactory connectionFactory =
-                new PostgresqlConnectionFactory(
-                        connectionConfig.build()
-                );
-
-        DatabaseClient ddl = DatabaseClient.create(connectionFactory);
-
-        String sql = "CREATE SCHEMA IF NOT EXISTS " + "\"" + schema + "\"";
-
-        return ddl.execute(sql)
-                  .then();
-    }
-
-}
-
+//        PostgresqlConnectionFactory connectionFactory =
+//                new PostgresqlConnectionFactory(
+//                        connectionConfig
+//                                .schema(schema)
+//                                .build()
+//                );
+//
+//        DatabaseClient ddl = DatabaseClient.create(connectionFactory);
+//
+//        String sql = "select * from tasks";
+//
+//        return ddl.execute(sql)
+//                  .as(Task.class)
+//                  .fetch()
+//                  .all();
+//        // configure connfactory with schema set on the builder
+//        PostgresqlConnectionFactory connectionFactory =
+//                new PostgresqlConnectionFactory(
+//                        connectionConfig.build()
+//                );
+//
+//        DatabaseClient ddl = DatabaseClient.create(connectionFactory);
+//
+//        String sql = "CREATE SCHEMA IF NOT EXISTS " + "\"" + schema + "\"";
+//
+//        return ddl.execute(sql)
+//                  .then();

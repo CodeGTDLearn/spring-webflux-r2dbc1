@@ -20,7 +20,7 @@ public class Controller implements IController {
 
     @Override
     @GetMapping(MAP)
-    public Flux<Task> findAll() {
+    public Flux<Task> findAllRepositories() {
         return service.findAll();
     }
 
@@ -31,9 +31,38 @@ public class Controller implements IController {
     }
 
     @Override
+    @GetMapping(MAP + PATH_DB)
+    public Flux<Task> getTaskByDb(@PathVariable("db") String db) {
+        return service.getTaskBySchema(db);
+    }
+
+    @Override
     @PostMapping(MAP + PATH_SCHEMA)
     public Mono<Void> createSchema(@PathVariable("schema") String schema) {
         return service.createSchema(schema);
+    }
+
+    @Override
+    @PostMapping(MAP + PATH_SCR_SCHEMA)
+    public Flux<Object> createScriptSchema(
+            @PathVariable("schema") String schema,
+            @PathVariable("table") String table) {
+        return service.createScriptSchema(schema,table);
+    }
+
+    @Override
+    @PostMapping(MAP + PATH_DB)
+    public Mono<Void> createDb(@PathVariable("db") String db) {
+        return service.createDb(db);
+    }
+
+    @Override
+    @PostMapping(MAP + PATH_SCR_DB)
+    public Flux<Object> createScriptDb(
+            @PathVariable("db") String db,
+            @PathVariable("schema") String schema,
+            @PathVariable("table") String table) {
+        return service.createScriptDb(db,schema,table);
     }
 
 

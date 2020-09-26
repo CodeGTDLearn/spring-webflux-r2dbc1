@@ -9,7 +9,15 @@ public interface ITaskService {
 
     Flux<Task> getTaskBySchema(String schema);
 
+    Flux<Task> getTaskByDb(String Db);
+
     Mono<Void> createSchema(String schema);
+
+    Mono<Void> createDb(String db);
+
+    Flux<Object> createScriptSchema(String schema,String table);
+
+    Flux<Object> createScriptDb(String db, String schema,String table);
 
 
 }
