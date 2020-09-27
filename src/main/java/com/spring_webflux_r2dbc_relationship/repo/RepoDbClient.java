@@ -100,26 +100,32 @@ public class RepoDbClient {
 
     public Flux<Object> scriptsCreateDb(String db,String schema,String table) {
 
+        return createDb(db).thenMany(
+                Mono.from(
+                        connFactory(connConfig.database(db)).create())
+                    .flatMapMany(
+                            connection ->
+                                    Flux.from(connection
+                                                      .createBatch()
+                                                      .add(sqlCreateSchemaDb(db,schema))
+                                                      .add(sqlCreateTable(schema,table))
+                                                      .add(populateTable(schema,table))
+                                                      .execute()
+                                             )));
 
-        /*
-        ERROR:  syntax error at or near "." at character 34
-db-r2dbc    | STATEMENT:  CREATE SCHEMA IF NOT EXISTS "bbb"."bbb"; create table "bbb".tasks (id serial not null constraint tasks_pk primary key, lastname varchar not null); alter table "bbb".tasks owner to root; ; insert into "bbb".tasks values (1, 'schema-table-bbb')
-         */
-        createDb(db);
+        //        connConfig.database(db);
 
-//        connConfig.database(db);
-
-        return Mono.from(
-                connFactory(connConfig).create())
-                   .flatMapMany(
-                           connection ->
-                                   Flux.from(connection
-                                                     .createBatch()
-                                                     .add(sqlCreateSchemaDb(db,schema))
-                                                     .add(sqlCreateTable(schema,table))
-                                                     .add(populateTable(schema,table))
-                                                     .execute()
-                                            ));
+        //        return Mono.from(
+        //                connFactory(connConfig).create())
+        //                   .flatMapMany(
+        //                           connection ->
+        //                                   Flux.from(connection
+        //                                                     .createBatch()
+        //                                                     .add(sqlCreateSchemaDb(db,schema))
+        //                                                     .add(sqlCreateTable(schema,table))
+        //                                                     .add(populateTable(schema,table))
+        //                                                     .execute()
+        //                                            ));
 
 
     }

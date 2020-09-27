@@ -23,7 +23,7 @@ public final class DbScripts {
     }
 
     public static String sqlCreateSchemaDb(String db,String schema) {
-        return "CREATE SCHEMA IF NOT EXISTS \"" + db + "\".\"" + schema + "\"";
+        return "CREATE SCHEMA IF NOT EXISTS \"" + schema + "\"";
     }
 
     public static String sqlCreateTable(String schema,String table) {
