@@ -6,23 +6,15 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class DbScripts {
+public final class DDLScripts {
 
     public static final String SQL_GET_TASK_BY_SCHEMA = "select * from tasks";
 
     public static String sqlCreateDb(String db) {
-
-
-        String createDb = "create database \"" + db + "\"";
-
-        return createDb;
+        return "create database \"" + db + "\"";
     }
 
     public static String sqlCreateSchema(String schema) {
-        return "CREATE SCHEMA IF NOT EXISTS \"" + schema + "\"";
-    }
-
-    public static String sqlCreateSchemaDb(String db,String schema) {
         return "CREATE SCHEMA IF NOT EXISTS \"" + schema + "\"";
     }
 
@@ -34,17 +26,19 @@ public final class DbScripts {
                         "id serial not null constraint tasks_pk primary key, " +
                         "lastname varchar not null); ";
 
-        String alterTable = "alter table \"" + schema + "\"." + table + " owner to root; ";
+        String alterTable =
+                "alter table \"" +
+                        schema + "\"." + table +
+                        " owner to root; ";
 
         return createTable + alterTable;
     }
 
+    public static String sqlPopulateTable(String schema,String table) {
 
-    public static String populateTable(String schema,String table) {
-        String populateTable =
-                "insert into \"" + schema + "\"." + table + " values (1, 'schema-table-" + schema + "')";
-
-        return populateTable;
+        return "insert into \"" +
+                schema + "\"." + table +
+                " values (1, 'schema-table-" + schema + "')";
     }
 }
 

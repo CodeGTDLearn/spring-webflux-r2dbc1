@@ -11,7 +11,7 @@ import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 @Slf4j
 @Configuration
 @EnableR2dbcRepositories
-public class ConnectionDb extends AbstractR2dbcConfiguration {
+public class Connection extends AbstractR2dbcConfiguration {
 
     /*
      **********************************************
@@ -37,7 +37,6 @@ public class ConnectionDb extends AbstractR2dbcConfiguration {
                 .port(5432)
                 .username("root")
                 .password("root");
-//                .database("db-test");
     }
 
 
