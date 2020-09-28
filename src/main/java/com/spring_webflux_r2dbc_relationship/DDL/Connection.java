@@ -1,4 +1,4 @@
-package com.spring_webflux_r2dbc_relationship.dbops;
+package com.spring_webflux_r2dbc_relationship.DDL;
 
 import io.r2dbc.postgresql.PostgresqlConnectionConfiguration;
 import io.r2dbc.postgresql.PostgresqlConnectionFactory;
@@ -38,7 +38,6 @@ public class Connection extends AbstractR2dbcConfiguration {
                 .username("root")
                 .password("root");
     }
-
 
     @Bean
     public PostgresqlConnectionFactory connectionFactory() {

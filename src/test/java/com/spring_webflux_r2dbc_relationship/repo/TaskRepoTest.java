@@ -9,7 +9,7 @@ import reactor.test.StepVerifier;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration
-public class ITaskRepoTest {
+public class TaskRepoTest {
 //    @Autowired
 //    ITaskRepo repo;
 //

@@ -1,4 +1,4 @@
-package com.spring_webflux_r2dbc_relationship.entity;
+package com.spring_webflux_r2dbc_relationship.task;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;

@@ -1,6 +1,7 @@
-package com.spring_webflux_r2dbc_relationship.repoDDL;
+package com.spring_webflux_r2dbc_relationship.DDL;
 
-import com.spring_webflux_r2dbc_relationship.entity.Task;
+import com.spring_webflux_r2dbc_relationship.task.Task;
+import com.spring_webflux_r2dbc_relationship.task.TaskRepo;
 import io.r2dbc.postgresql.PostgresqlConnectionConfiguration;
 import io.r2dbc.postgresql.PostgresqlConnectionFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +10,7 @@ import org.springframework.data.r2dbc.core.DatabaseClient;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
-import static com.spring_webflux_r2dbc_relationship.dbops.DDLScripts.SQL_GET_TASK_BY_SCHEMA;
+import static com.spring_webflux_r2dbc_relationship.DDL.Scripts.SQL_GET_TASK;
 
 
 /*
@@ -26,17 +27,13 @@ import static com.spring_webflux_r2dbc_relationship.dbops.DDLScripts.SQL_GET_TAS
  */
 @Slf4j
 @Component
-public class DDLCrudRepo {
+public class CrudRepo {
 
     @Autowired
     PostgresqlConnectionConfiguration.Builder connConfig;
 
-    private PostgresqlConnectionFactory connFactory
-            (PostgresqlConnectionConfiguration.Builder connectionConfig) {
-        return new PostgresqlConnectionFactory(
-                connectionConfig.build()
-        );
-    }
+    @Autowired
+    TaskRepo r2dbcRepo;
 
     public Flux<Task> getTasksBySchema(String schema) {
 
@@ -49,26 +46,34 @@ public class DDLCrudRepo {
 
         DatabaseClient ddl = DatabaseClient.create(connFactory);
 
-        return ddl.execute(SQL_GET_TASK_BY_SCHEMA)
+        return ddl.execute(SQL_GET_TASK)
                   .as(Task.class)
                   .fetch()
                   .all();
     }
 
-    public Flux<Task> getTasksByDb(String db) {
+    public Flux<Task> getTasksByDb_DbClient(String db) {
 
         connConfig.database(db);
-        //        connConfig.schema(db);
+        connConfig.schema(db);
 
         PostgresqlConnectionFactory connFactory = connFactory(connConfig);
 
         DatabaseClient ddl = DatabaseClient.create(connFactory);
 
-        return ddl.execute(SQL_GET_TASK_BY_SCHEMA)
+        return ddl.execute(SQL_GET_TASK)
                   .as(Task.class)
                   .fetch()
                   .all();
     }
+
+    private PostgresqlConnectionFactory connFactory
+            (PostgresqlConnectionConfiguration.Builder connectionConfig) {
+        return new PostgresqlConnectionFactory(
+                connectionConfig.build()
+        );
+    }
+
 }
 
 

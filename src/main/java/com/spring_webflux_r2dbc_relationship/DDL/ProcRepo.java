@@ -1,4 +1,4 @@
-package com.spring_webflux_r2dbc_relationship.repoDDL;
+package com.spring_webflux_r2dbc_relationship.DDL;
 
 import io.r2dbc.postgresql.PostgresqlConnectionConfiguration;
 import io.r2dbc.postgresql.PostgresqlConnectionFactory;
@@ -9,48 +9,26 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import static com.spring_webflux_r2dbc_relationship.dbops.DDLScripts.*;
+import static com.spring_webflux_r2dbc_relationship.DDL.Scripts.*;
 
 
 @Slf4j
 @Component
-public class DDLProcRepo {
+public class ProcRepo {
 
     @Autowired
     PostgresqlConnectionConfiguration.Builder connConfig;
 
-    private PostgresqlConnectionFactory connFactory
-            (PostgresqlConnectionConfiguration.Builder connectionConfig) {
-        return new PostgresqlConnectionFactory(
-                connectionConfig.build()
-        );
-    }
-
-    public Flux<Object> createBySchemma(String db,String schema,String table) {
-        return Mono.from(
-                connFactory(connConfig.database(db)).create())
-                   .flatMapMany(
-                           connection ->
-                                   Flux.from(connection
-                                                     .createBatch()
-                                                     .add(sqlCreateSchema(schema))
-                                                     .add(sqlCreateTable(schema,table))
-                                                     .add(sqlPopulateTable(schema,table))
-                                                     .execute()
-                                            ));
-    }
-
-    public Flux<Object> createByDb(String db,String schema,String table) {
-
+    public Flux<Object> createDbByDb(String db,String schema,String table) {
         return createDb(db).thenMany(
                 Mono.from(connFactory(connConfig.database(db)).create())
                     .flatMapMany(
                             connection ->
                                     Flux.from(connection
                                                       .createBatch()
-                                                      .add(sqlCreateSchema(schema))
-                                                      .add(sqlCreateTable(schema,table))
-                                                      .add(sqlPopulateTable(schema,table))
+                                                      .add(sqlCreateSchema(db))
+                                                      .add(sqlCreateTable(db,table))
+                                                      .add(sqlPopulateTable(db,table))
                                                       .execute()
                                              )));
     }
@@ -66,6 +44,27 @@ public class DDLProcRepo {
                 .execute(sqlCreateDb(db))
                 .then();
     }
+
+    private PostgresqlConnectionFactory connFactory
+            (PostgresqlConnectionConfiguration.Builder connectionConfig) {
+        return new PostgresqlConnectionFactory(connectionConfig.build());
+    }
+
+    public Flux<Object> createSchemmaByDb(String db,String schema,String table) {
+        return Mono.from(
+                connFactory(connConfig.database(db)).create())
+                   .flatMapMany(
+                           connection ->
+                                   Flux.from(connection
+                                                     .createBatch()
+                                                     .add(sqlCreateSchema(db))
+                                                     .add(sqlCreateTable(db,table))
+                                                     .add(sqlPopulateTable(db,table))
+                                                     .execute()
+                                            ));
+    }
+
+
 }
 
 
