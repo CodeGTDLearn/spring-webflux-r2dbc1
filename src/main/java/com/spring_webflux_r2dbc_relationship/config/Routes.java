@@ -10,6 +10,6 @@ public final class Routes {
     public static final String PATH_DDL_CRUD_DB_DBC ="/database/dbclient/{db}";
     public static final String PATH_DDL_CRUD_DB_REP ="/database/confactory/{db}";
     public static final String PATH_DDL_CRUD_SCHEMA ="/schema/{schema}";
-    public static final String PATH_DDL_PROC_DB ="/database/{db}/{schema}/{table}";
+    public static final String PATH_DDL_PROC_DB ="/database/{db}/{table}";
     public static final String PATH_DDL_PROC_SCHEMA ="/schema/{db}/{schema}/{table}";
 }

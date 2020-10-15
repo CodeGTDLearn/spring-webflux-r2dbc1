@@ -1,10 +1,8 @@
-package com.spring_webflux_r2dbc_relationship.DDL;
+package com.spring_webflux_r2dbc_relationship.ddl;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.Arrays;
 
 import static java.lang.String.format;
 

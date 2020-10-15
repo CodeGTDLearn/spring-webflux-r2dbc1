@@ -1,4 +1,4 @@
-package com.spring_webflux_r2dbc_relationship.DDL;
+package com.spring_webflux_r2dbc_relationship.ddl;
 
 import com.spring_webflux_r2dbc_relationship.task.Task;
 import com.spring_webflux_r2dbc_relationship.task.TaskRepo;
@@ -10,7 +10,7 @@ import org.springframework.data.r2dbc.core.DatabaseClient;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
-import static com.spring_webflux_r2dbc_relationship.DDL.Scripts.SQL_GET_TASK;
+import static com.spring_webflux_r2dbc_relationship.ddl.Scripts.SQL_GET_TASK;
 
 
 /*

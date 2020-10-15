@@ -1,4 +1,4 @@
-package com.spring_webflux_r2dbc_relationship.DDL;
+package com.spring_webflux_r2dbc_relationship.ddl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +26,7 @@ public class ProcController {
     @PostMapping(MAP + PATH_DDL_PROC_DB)
     public Flux<Object> createDbByDb(
             @PathVariable("db") String db,
-            @PathVariable("schema") String schema,
             @PathVariable("table") String table) {
-        return procService.createDbByDb(db,schema,table);
+        return procService.createDbByDb(db,table);
     }
 }

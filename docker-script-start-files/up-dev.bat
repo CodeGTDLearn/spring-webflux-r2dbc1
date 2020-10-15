@@ -1,4 +1,7 @@
 echo on
+REM SETTING JDK8 AS DEFAULT
+set JAVA_HOME=C:\Program Files\java\AdoptOpenJDK-8.0.252.09\
+
 REM CLEAN EVERYTHING BEFORE GO-UP EVERYTHING
 docker-compose -f ../dev-compose.yml down --remove-orphans
 docker-compose -f ../test-compose.yml down --remove-orphans

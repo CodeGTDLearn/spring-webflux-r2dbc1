@@ -1,4 +1,4 @@
-package com.spring_webflux_r2dbc_relationship.DDL;
+package com.spring_webflux_r2dbc_relationship.ddl;
 
 import io.r2dbc.postgresql.PostgresqlConnectionConfiguration;
 import io.r2dbc.postgresql.PostgresqlConnectionFactory;

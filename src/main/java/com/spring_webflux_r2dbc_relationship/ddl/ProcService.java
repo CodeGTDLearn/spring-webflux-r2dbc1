@@ -1,4 +1,4 @@
-package com.spring_webflux_r2dbc_relationship.DDL;
+package com.spring_webflux_r2dbc_relationship.ddl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +10,13 @@ import reactor.core.publisher.Flux;
 public class ProcService {
 
     @Autowired
-    private ProcRepo ddl;
+    private com.spring_webflux_r2dbc_relationship.ddl.ProcRepo ddl;
 
     public Flux<Object> createDbBySchemma(String db,String schema,String table) {
         return ddl.createSchemmaByDb(db,schema,table);
     }
 
-    public Flux<Object> createDbByDb(String db,String schema,String table) {
-        return ddl.createDbByDb(db,schema,table);
+    public Flux<Object> createDbByDb(String db,String table) {
+        return ddl.createDbByDb(db,table);
     }
 }

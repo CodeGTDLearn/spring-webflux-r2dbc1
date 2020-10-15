@@ -1,4 +1,4 @@
-package com.spring_webflux_r2dbc_relationship.DDL;
+package com.spring_webflux_r2dbc_relationship.ddl;
 
 import com.spring_webflux_r2dbc_relationship.task.Task;
 import com.spring_webflux_r2dbc_relationship.task.TaskRepo;
