@@ -17,41 +17,40 @@ import static com.spring_webflux_r2dbc_relationship.ddl.Scripts.*;
 public class ProcRepo {
 
     @Autowired
-    PostgresqlConnectionConfiguration.Builder connConfig;
+    PostgresqlConnectionConfiguration.Builder connectionConfig;
 
-    private PostgresqlConnectionFactory conFactory
+    private PostgresqlConnectionFactory connectionFactory
             (PostgresqlConnectionConfiguration.Builder config) {
+
         return new PostgresqlConnectionFactory(config.build());
+
     }
 
-    private Mono<Void> createDb(String db) {
-        PostgresqlConnectionFactory conFact = conFactory(connConfig);
+    public Flux<Object> createDbByDb(String db,String table) {
+        PostgresqlConnectionFactory conFact = connectionFactory(connectionConfig);
 
         DatabaseClient ddl = DatabaseClient.create(conFact);
 
         return ddl
                 .execute(sqlCreateDb(db))
-                .then();
-    }
-
-    public Flux<Object> createDbByDb(String db,String table) {
-        return createDb(db).thenMany(
-                Mono.from(conFactory(connConfig.database(db)).create())
-                    .flatMapMany(
-                            connection ->
-                                    Flux.from(connection
-                                                      .createBatch()
-                                                      .add(sqlCreateSchema(db))
-                                                      .add(sqlCreateTable(db,table))
-                                                      .add(sqlPopulateTable(db,table))
-                                                      .execute()
-                                             )));
+                .then()
+                .thenMany(
+                        Mono.from(connectionFactory(connectionConfig.database(db)).create())
+                            .flatMapMany(
+                                    connection ->
+                                            Flux.from(connection
+                                                              .createBatch()
+                                                              .add(sqlCreateSchema(db))
+                                                              .add(sqlCreateTable(db,table))
+                                                              .add(sqlPopulateTable(db,table))
+                                                              .execute()
+                                                     )));
     }
 
 
     public Flux<Object> createSchemmaByDb(String db,String schema,String table) {
         return Mono.from(
-                conFactory(connConfig.database(db)).create())
+                connectionFactory(connectionConfig.database(db)).create())
                    .flatMapMany(
                            connection ->
                                    Flux.from(connection

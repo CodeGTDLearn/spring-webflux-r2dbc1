@@ -10,13 +10,13 @@ import reactor.core.publisher.Flux;
 public class ProcService {
 
     @Autowired
-    private com.spring_webflux_r2dbc_relationship.ddl.ProcRepo ddl;
+    private com.spring_webflux_r2dbc_relationship.ddl.ProcRepo procRepo;
 
     public Flux<Object> createDbBySchemma(String db,String schema,String table) {
-        return ddl.createSchemmaByDb(db,schema,table);
+        return procRepo.createSchemmaByDb(db,schema,table);
     }
 
     public Flux<Object> createDbByDb(String db,String table) {
-        return ddl.createDbByDb(db,table);
+        return procRepo.createDbByDb(db,table);
     }
 }

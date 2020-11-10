@@ -13,7 +13,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.spring-webflux-r2dbc-relationship</groupId>
+    <groupId>com.spring-webflux-r2dbc-ddl</groupId>
     <artifactId>spring_webflux_r2dbc_relationship</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>spring_webflux_r2dbc_relationship</name>
